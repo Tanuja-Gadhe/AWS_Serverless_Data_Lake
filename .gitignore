@@ -1,0 +1,91 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Lambda deployment packages
+lambda-deployment-*.zip
+*.zip
+
+# Sample data and documents
+sample-data/
+docs/
+scripts/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+logs/
+*.out
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+config.local.json
+
+# AWS credentials (NEVER commit these!)
+.aws/
+credentials
+*.pem
+*.key
+
+# Jupyter notebooks (optional - uncomment if you don't want to commit notebooks)
+# .ipynb_checkpoints/
+# *.ipynb
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+.cache/
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Testing
+.tox/
+.pytest_cache/
+test-results/
+
+# Documentation builds (if using Sphinx or similar)
+docs/_build/
+site/
+
+# Athena query results (if downloading locally)
+athena-results/
+query-results/
+
+# Local configuration overrides
+local_config.py
+settings.local.json
+
+# Glue job test outputs
+glue-output/
+test-output/

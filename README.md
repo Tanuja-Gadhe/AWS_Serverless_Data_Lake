@@ -10,7 +10,7 @@
 
 A scalable, event-driven data lake architecture built on AWS with **AWS Glue Data Catalog** as the central metadata repository, demonstrating production-grade data engineering best practices including automated schema discovery, incremental processing, cost optimization, and comprehensive monitoring.
 
-> **Note**: This project uses manual deployment through AWS Console and CLI to ensure deep understanding of each service. While automation tools like Terraform are valuable, I chose the hands-on approach to truly master AWS data engineering concepts and be able to explain every component confidently in interviews.
+> **Note**: This project uses manual deployment through AWS Console and CLI to ensure deep understanding of each service. While automation tools like Terraform are valuable, I chose the hands-on approach to truly master AWS data engineering concepts.
 
 ## 🏗️ Architecture Overview
 
@@ -35,7 +35,7 @@ This project implements a **3-layer data lake architecture** (Raw → Processed 
                                     │  - 100+ Partitions          │
                                     │  - Job Bookmarks            │
                                     │  - Schema Versions          │
-                                    └──────────┬──────────────────┘
+                                    └──────────┬──────────────────┘SS
                                                │ (All services read/write metadata)
                                                │
         ┌──────────────────────────────────────┼──────────────────────────────────────┐
@@ -125,17 +125,11 @@ aws-data-lake-project/
 ├── lambda-functions/          # Lambda orchestration
 │   ├── trigger_glue_job.py    # Event-driven job trigger
 │   └── requirements.txt
-├── scripts/                   # Sample data generation
-│   ├── generate_sample_data.py # Generate test data
-│   ├── download_sample_data.py # Download NYC Taxi data
-│   └── convert_parquet_to_csv.py
 ├── athena-queries/            # SQL queries
 │   ├── create_tables.sql      # DDL statements
-│   └── analytics_queries.sql  # Sample analytics queries
-├── docs/                      # Documentation
-│   ├── ARCHITECTURE.md        # Architecture deep-dive
-│   ├── COST_OPTIMIZATION.md   # Cost analysis
-│   └── INTERVIEW_GUIDE.md     # Interview preparation
+│   └── analytics_queries.sql  # Sample analytics queries                     # Documentation
+├── ARCHITECTURE.md            # Architecture deep-dive
+├── COST_OPTIMIZATION.md       # Cost analysis
 ├── AWS_SETUP_GUIDE.md         # Complete manual setup guide
 └── README.md                  # This file
 ```
@@ -241,74 +235,6 @@ Each phase has detailed, step-by-step instructions in `AWS_SETUP_GUIDE.md`.
 - **QuickSight**: Discovers tables from Catalog, creates datasets and dashboards
 - **Monitoring**: CloudWatch tracks Catalog API calls (GetTable, GetPartitions)
 
-## 🔍 Sample Queries
-
-### Query 1: Daily Revenue Trends
-```sql
-SELECT 
-    pickup_date,
-    total_trips,
-    total_revenue,
-    ROUND(total_revenue / total_trips, 2) AS revenue_per_trip
-FROM curated_daily_trip_statistics
-WHERE year = 2024 AND month = 1
-ORDER BY pickup_date DESC;
-```
-
-### Query 2: Peak Hours Analysis
-```sql
-SELECT 
-    pickup_hour,
-    day_name,
-    trip_count,
-    avg_fare
-FROM curated_hourly_trip_patterns
-WHERE year = 2024 AND month = 1
-ORDER BY trip_count DESC
-LIMIT 10;
-```
-
-### Query 3: Payment Method Distribution
-```sql
-SELECT 
-    payment_method,
-    transaction_count,
-    ROUND(100.0 * transaction_count / SUM(transaction_count) OVER (), 2) AS percentage
-FROM curated_payment_type_analysis
-WHERE year = 2024 AND month = 1
-ORDER BY transaction_count DESC;
-```
-
-See [analytics_queries.sql](athena-queries/analytics_queries.sql) for more examples.
-
-## 📊 Monitoring & Observability
-
-### CloudWatch Dashboards
-- Glue job execution metrics
-- Lambda invocation and error rates
-- S3 storage size and object counts
-- Athena query performance
-
-### Alarms & Notifications
-- Glue job failures → SNS email alert
-- Lambda errors → SNS email alert
-- Cost anomalies → Budget alerts
-
-### Log Analysis
-```bash
-# View Glue job logs
-aws logs tail /aws-glue/jobs/<job-name> --follow
-
-# View Lambda logs
-aws logs tail /aws/lambda/<function-name> --follow
-
-# Query logs with CloudWatch Insights
-aws logs start-query \
-    --log-group-name /aws-glue/jobs/<job-name> \
-    --start-time $(date -d '1 hour ago' +%s) \
-    --end-time $(date +%s) \
-    --query-string 'fields @timestamp, @message | filter @message like /ERROR/'
-```
 
 ## 🔒 Security Features
 
@@ -332,32 +258,13 @@ aws logs start-query \
 
 See [COST_OPTIMIZATION.md](docs/COST_OPTIMIZATION.md) for detailed analysis.
 
-## 🧪 Testing
 
-### Test the Pipeline
-
-```bash
-# 1. Upload test data
-aws s3 cp sample-data/csv/test.csv s3://YOUR-BUCKET/raw/taxi_trips/
-
-# 2. Monitor Lambda execution
-aws logs tail /aws/lambda/YOUR-LAMBDA-FUNCTION --follow
-
-# 3. Check Glue job status
-aws glue get-job-runs --job-name YOUR-JOB-NAME --max-results 1
-
-# 4. Query results in Athena
-aws athena start-query-execution \
-    --query-string "SELECT COUNT(*) FROM processed_taxi_trips WHERE year=2024" \
-    --result-configuration OutputLocation=s3://YOUR-ATHENA-BUCKET/
-```
 
 ## 📚 Documentation
 
 - **[AWS Setup Guide](AWS_SETUP_GUIDE.md)** - Complete manual setup instructions ⭐
 - [Architecture Documentation](docs/ARCHITECTURE.md) - Detailed system design
 - [Cost Optimization Guide](docs/COST_OPTIMIZATION.md) - Cost analysis and savings
-- [Interview Preparation Guide](docs/INTERVIEW_GUIDE.md) - Technical deep-dive for interviews
 
 ## 🎯 Use Cases
 

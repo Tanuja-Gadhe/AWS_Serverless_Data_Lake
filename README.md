@@ -349,7 +349,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Built with ☕ and lots of AWS Console clicking!
 
 **Connect with me:**
-- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/tanuja-gadhe-84a041220/)
+- LinkedIn: [https://www.linkedin.com/in/tanuja-gadhe-84a041220]
 - Email: tanujagadhe18@gmail.com
 
 ## 🙏 Acknowledgments
